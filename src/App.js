@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <h1>Yummi</h1>
+      <h1>Yummi 1</h1>
       <div>Hello Yummi !</div>
     </>
   )
