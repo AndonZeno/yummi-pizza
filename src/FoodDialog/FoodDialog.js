@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { FoodLabel } from "../Menu/FoodGrid"
 import { Title } from "../Styles/title"
 import { formatPrice } from "../Data/FoodData"
+import { QuantityInput } from "./QuantityInput"
 
 const Dialog = styled.div`
   width: 500px;
@@ -64,11 +65,10 @@ export const DialogFooter = styled.div`
   justify-content: center;
 `
 
-export function FoodDialog({ openFood, setOpenFood, setOrders, orders }) {
+function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
   function close() {
     setOpenFood()
   }
-  if (!openFood) return null
 
   const order = {
     ...openFood
@@ -87,7 +87,9 @@ export function FoodDialog({ openFood, setOpenFood, setOrders, orders }) {
           <DialogBannerName>{openFood.name}</DialogBannerName>
         </DialogBanner>
 
-        <DialogContent></DialogContent>
+        <DialogContent>
+          <QuantityInput />
+        </DialogContent>
         <DialogFooter>
           <ConfirmButton onClick={addToOrder}>
             Add to order: {formatPrice(openFood.price)}
@@ -96,4 +98,9 @@ export function FoodDialog({ openFood, setOpenFood, setOrders, orders }) {
       </Dialog>
     </>
   )
+}
+
+export function FoodDialog(props) {
+  if (!props.openFood) return null
+  return <FoodDialogContainer {...props} />
 }
