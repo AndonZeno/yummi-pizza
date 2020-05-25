@@ -33,13 +33,20 @@ const OrderItem = styled.div`
   justify-content: space-between;
 `
 
-export function Order({ orders }) {
+export function Order({ orders, setOrders }) {
   const subtotal = orders.reduce((total, order) => {
     return total + getPrice(order)
   }, 0)
 
   const delivery = subtotal * 0.1
   const total = subtotal + delivery
+
+  const deleteItem = index => {
+    const newOrders = [...orders]
+    newOrders.splice(index, 1)
+    setOrders(newOrders)
+  }
+
   return (
     <OrderStyled>
       {orders.length === 0 ? (
@@ -47,12 +54,19 @@ export function Order({ orders }) {
       ) : (
         <OrderContent>
           <OrderContainer>Your Order: </OrderContainer>
-          {orders.map(order => (
+          {orders.map((order, index) => (
             <OrderContainer>
               <OrderItem>
                 <div>{order.quantity}</div>
                 <div>{order.name}</div>
-                <div></div>
+                <div
+                  onClick={() => {
+                    deleteItem(index)
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  🗑️
+                </div>
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
             </OrderContainer>
