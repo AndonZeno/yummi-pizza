@@ -24,16 +24,24 @@ const OrderContent = styled(DialogContent)`
 const OrderContainer = styled.div`
   padding: 10px 0px;
   border-bottom: 1px solid grey;
+  ${({ editable }) =>
+    editable
+      ? `
+  &:hover {
+    background-color #e7e7e7
+  }`
+      : `
+  pointer-events: none`}
 `
 
 const OrderItem = styled.div`
   padding: 10px 0px;
   display: grid;
-  grid-template-columns: 20px 150px 20px 60px;
+  grid-template-columns: 10px 150px 20px 20px 60px;
   justify-content: space-between;
 `
 
-export function Order({ orders, setOrders }) {
+export function Order({ orders, setOrders, setOpenFood }) {
   const subtotal = orders.reduce((total, order) => {
     return total + getPrice(order)
   }, 0)
@@ -55,10 +63,18 @@ export function Order({ orders, setOrders }) {
         <OrderContent>
           <OrderContainer>Your Order: </OrderContainer>
           {orders.map((order, index) => (
-            <OrderContainer>
+            <OrderContainer editable>
               <OrderItem>
                 <div>{order.quantity}</div>
                 <div>{order.name}</div>
+                <div
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setOpenFood({ ...order, index })
+                  }}
+                >
+                  📋
+                </div>
                 <div
                   onClick={() => {
                     deleteItem(index)

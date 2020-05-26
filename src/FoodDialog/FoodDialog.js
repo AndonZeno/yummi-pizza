@@ -71,6 +71,8 @@ export function getPrice(order) {
 }
 function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
   const quantity = useQuantity(openFood && openFood.quantity)
+  const isEditing = openFood.index > -1
+
   function close() {
     setOpenFood()
   }
@@ -78,6 +80,12 @@ function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
   const order = {
     ...openFood,
     quantity: quantity.value
+  }
+  function editOrder() {
+    const newOrders = [...orders]
+    newOrders[order.index] = order
+    setOrders(newOrders)
+    close()
   }
 
   function addToOrder() {
@@ -97,8 +105,8 @@ function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
           <QuantityInput quantity={quantity} />
         </DialogContent>
         <DialogFooter>
-          <ConfirmButton onClick={addToOrder}>
-            Add to order: {formatPrice(getPrice(order))}
+          <ConfirmButton onClick={isEditing ? editOrder : addToOrder}>
+            {isEditing ? "Update Order:" : "Add to order:"} {formatPrice(getPrice(order))}
           </ConfirmButton>
         </DialogFooter>
       </Dialog>
