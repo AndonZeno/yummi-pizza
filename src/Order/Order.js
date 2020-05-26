@@ -65,7 +65,7 @@ export function Order({ orders, setOrders }) {
                   }}
                   style={{ cursor: "pointer" }}
                 >
-                  🗑️
+                  ❌
                 </div>
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
@@ -79,13 +79,19 @@ export function Order({ orders, setOrders }) {
             </OrderItem>
             <OrderItem>
               <div></div>
+
               <div> Delivery cost:</div>
               <div> {formatPrice(delivery)}</div>
             </OrderItem>
             <OrderItem>
               <div></div>
-              <div> Total: </div>
-              <div> {formatPrice(total)}</div>
+
+              <div>
+                <strong>Total: </strong>
+              </div>
+              <div>
+                <strong> {formatPrice(total)} </strong>
+              </div>
             </OrderItem>
           </OrderContainer>
         </OrderContent>
